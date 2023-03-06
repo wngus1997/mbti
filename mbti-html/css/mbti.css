@@ -1,0 +1,27 @@
+.btn{
+    background-color: #aed664;
+    border : none;
+    font-family: 'KCC-Ganpan';
+    padding : 6px 12px;
+    border-radius : 5px;
+    font-size: 16px;
+    height : 38px;
+}
+.btn:hover{
+    cursor : pointer;
+    filter: brightness(1.07);
+}
+.btnBox{
+    display : grid;
+    gap : 0.5rem;
+    width : 80%;
+    margin : auto;
+}
+h4{
+    width : 70%;
+    margin : auto;
+}
+#explain{
+    width : 40%;
+    margin : auto;
+}

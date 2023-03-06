@@ -1,0 +1,131 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>결과</title>
+		<link rel="stylesheet" href="./css/layout.css">
+		<link rel="stylesheet" href="./css/mbti.css">
+	</head>
+	<body>
+		<div class="container text-center">
+			<img  class="mt-30 circle" width="200px" src="./img/result.png" alt="result">
+			<h2 id="mbtiType" class="mt-30"></h2>
+			<h3 id="hobby" class="mt-30"></h3>
+			<h3 id="explain" class="mt-20"></h3>
+			<!-- 공유 버튼 -->
+			<script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=63fd5c71e17d540019016c21&product=inline-share-buttons&source=platform" async="async"></script>
+			<div class="sharethis-inline-share-buttons mt-30"></div>
+			<div id="disqus_thread"></div>
+		</div>
+		<script>
+			/* 
+				[Step 01] 초기화
+				결과 타입과 설명 JSON으로 구성하기 
+			*/
+			var result = {
+				"ISTJ" : {
+					"mbtiType": "열정적인 조직가, ISTJ",
+					"hobby": "체스",
+					"explain": "ISTJ 유형은 분석력과 계획성이 뛰어나기 때문에 체스와 같은 전략적인 게임은 이들의 관심을 끌기에 적합합니다. 체스를 하면 머리를 많이 쓰면서 미래를 예측해보는 것도 ISTJ 유형에게 적합한 도전입니다."
+				},
+				"ISFJ" : {
+					"mbtiType": "따뜻한 크리에이터, ISFJ",
+					"hobby": "조립식 모형 만들기",
+					"explain": "ISFJ 유형은 세부적인 작업을 하며 이를 통해 자신의 능력을 향상시키는 것을 좋아합니다. 따라서 조립식 모형 만들기는 이들의 관심사에 부합합니다. 조립하는 과정에서 차분하게 세부적인 작업을 하고, 마지막에 완성된 작품을 보면서 만족감을 느낄 수 있기 때문입니다."
+				},
+				"INFJ" : {
+					"mbtiType": "신비로운 마법사, INFJ",
+					"hobby": "음악 감상",
+					"explain": "INFJ 유형은 예술적인 감각이 뛰어나고, 자신의 내면에 많은 감정을 가지고 있습니다. 따라서 음악 감상은 이들의 마음에 깊이 다가갈 수 있는 취미입니다. 또한 음악을 통해 자신과 타인의 감정을 공유하고, 그 속에서 위로와 힐링을 받을 수 있습니다."
+				},
+				"INTJ" : {
+					"mbtiType": "분석적인 전략가, INTJ", 
+					"hobby": "전략 보드 게임",
+					"explain": "INTJ는 독창적이고 전략적인 사고를 가지고 있습니다. 이들은 논리적인 사고와 문제 해결 능력을 즐깁니다. 그래서 전략 보드 게임은 이들에게 적합한 취미 중 하나입니다. 전략 보드 게임을 하면 논리적인 사고와 문제 해결 능력을 발휘하며 즐길 수 있습니다."
+				},
+				"ISTP" : {
+					"mbtiType": "느긋한 대장장이, ISTP", 
+					"hobby": "스케이트보드 타기",
+					"explain": "ISTP 유형은 도전과 스릴을 즐기는 경향이 있으며, 새로운 도전을 위해 끊임없이 시도하는 것을 좋아합니다. 스케이트보드 타기는 이들이 즐길 수 있는 좋은 스포츠 중 하나입니다. 이를 통해 새로운 기술을 배우고 자신의 한계를 시험해 볼 수 있습니다."
+				},
+				"ISFP" : {
+					"mbtiType": "예술적인 감각수호자, ISFP", 
+					"hobby": "그림 그리기",
+					"explain": "ISFP 유형은 예술적인 표현을 즐기는 경향이 있습니다. 그림 그리기는 이들이 자신의 감성과 감정을 자유롭게 표현할 수 있는 좋은 방법 중 하나입니다. 그림 그리기는 창의성과 상상력을 키우는 데도 도움이 되며, 힐링과 스트레스 해소에도 효과적입니다."
+				},
+				"INFP" : {
+					"mbtiType": "몽상가적인 이상주의자, INFP", 
+					"hobby": "쓰기",
+					"explain": "INFP는 자신의 감정과 생각을 자유롭게 표현하고자 하는 유형입니다. 따라서 쓰기라는 취미는 이들에게 매우 적합할 것입니다. 시나 소설 등 다양한 글쓰기 형태가 있으며, 이를 통해 자신의 내면을 탐구하고 자신만의 창작물을 만들어낼 수 있습니다."
+				},
+				"INTP" : {
+					"mbtiType": "비판적인 사색가, INTP", 
+					"hobby": "프로그래밍",
+					"explain": "INTP 유형은 분석력과 논리적인 사고력이 뛰어나기 때문에 프로그래밍과 같은 논리적인 작업이 적합합니다. 또한 자신이 만든 프로그램이 동작하는 것을 보는 것으로 만족감을 느낄 수 있기 때문에 취미로 적합합니다."
+				},
+				"ESTP" : {
+					"mbtiType": "모험심이 강한 도전자, ESTP", 
+					"hobby": "서핑",
+					"explain": "ESTP 유형은 높은 감각적 경험을 추구하며, 새로운 도전과 스릴을 즐기는 경향이 있습니다. 서핑은 이들이 즐길 수 있는 좋은 스포츠 중 하나입니다. 이를 통해 자신의 능력을 시험하고 스트레스를 해소할 수 있습니다. 또한 자연과 함께하는 경험으로 새로운 에너지를 얻을 수 있습니다."
+				},
+				"ESFP" : {
+					"mbtiType": "즐거움을 추구하는 연예인, ESFP", 
+					"hobby": "춤추기",
+					"explain": "ESFP는 타인과의 상호작용과 새로운 경험을 추구하는 유형입니다. 따라서 춤추기라는 활동은 이들에게 좋은 선택일 수 있습니다. 춤추기는 건강에도 좋으며, 동시에 즐거운 음악을 듣고 리듬감을 즐기는 취미로서, ESFP들에게 매력적일 것입니다."
+				},
+				"ENFP" : {
+					"mbtiType": "자유로운 영혼의 우주비행사, ENFP", 
+					"hobby": "문화 예술 감상",
+					"explain": "ENFP 유형은 새로운 경험을 좋아하고 독창적인 아이디어를 자주 내는 편입니다. 그래서 예술 작품, 음악, 영화, 연극 등 다양한 문화 예술 활동을 즐길 수 있는 취미가 잘 맞을 수 있습니다. 문화 예술을 즐기면서 새로운 아이디어와 인사이트를 얻을 수 있어 ENFP 유형의 창의성을 더욱 향상시킬 수 있습니다."
+				},
+				"ENTP" : {
+					"mbtiType": "창의적인 변론가, ENTP", 
+					"hobby": "논쟁하기",
+					"explain": "ENTP들은 논쟁과 토론을 좋아하며, 다양한 주제에 대해 자신의 의견을 표현하는 것을 즐깁니다. 따라서 논쟁이 가능한 취미들을 추천해볼 수 있습니다. 예를 들어, 토론 모임에 참여하거나, 블로그나 SNS에서 다양한 주제에 대해 글을 쓰는 것이 좋을 것입니다."
+				},
+				"ESTJ" : {
+					"mbtiType": "타고난 리더, ESTJ", 
+					"hobby": "운동",
+					"explain": "ESTJ 유형은 책임감과 실행력이 뛰어나기 때문에 운동과 같은 몸으로 움직이는 것을 좋아합니다. 또한 경쟁적인 성격을 가지고 있어서, 스포츠나 운동을 하면 경쟁적인 재미를 느낄 수 있습니다."
+				},
+				"ESFJ" : {
+					"mbtiType": "사교적인 동료상사, ESFJ", 
+					"hobby": "요리",
+					"explain": "ESFJ는 다른 사람들을 위해 봉사하는 것을 좋아합니다. 이들은 주로 집에서 사람들을 대접하는 것을 좋아하기 때문에 요리는 이들에게 적합한 취미 중 하나입니다. 요리를 통해 다른 사람들에게 맛있는 음식을 제공하며 그들을 기쁘게 해줄 수 있습니다."
+				},
+				"ENFJ" : {
+					"mbtiType": "온화한 조정자, ENFJ", 
+					"hobby": "봉사활동",
+					"explain": "ENFJ는 사람들과 소통하고 다른 사람들을 돕는 것을 좋아합니다. 그래서 봉사활동은 이들에게 적합한 취미 중 하나입니다. 봉사활동은 다른 사람들을 도우며 자신에게도 많은 보람을 줄 수 있습니다."
+				},
+				"ENTJ" : {
+					"mbtiType": "비전을 실현하는 CEO, ENTJ", 
+					"hobby": "팀 스포츠",
+					"explain": "ENTJ 유형은 지도자적인 역량과 대인 관계 능력을 가지고 있어 다른 사람들과 함께하는 활동을 좋아합니다. 또한 경쟁적인 분위기에서 더욱 자신의 역량을 발휘하는 편입니다. 그래서 팀 스포츠를 즐길 수 있는 취미가 잘 맞을 수 있습니다. 팀 스포츠를 즐기면서 자신의 리더십과 커뮤니케이션 능력을 더욱 향상시킬 수 있습니다. 또한 스포츠를 통해 경쟁심을 유지하면서 몸과 마음의 건강을 챙길 수 있습니다."
+				},
+			}
+
+			var mbtiType = document.getElementById("mbtiType");
+			var explain1 = document.getElementById("hobby");
+			var explain2 = document.getElementById("explain");
+
+			window.onload=function(){
+				var url = window.location.search;
+				var param = new URLSearchParams(url);
+				var mbti = param.get("mbti");
+					mbtiType.innerHTML =result[mbti].mbtiType;
+					hobby.innerHTML =result[mbti].hobby;
+					explain.innerHTML =result[mbti].explain;
+				
+			}
+		</script>
+        <script>
+            (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://juice-8.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+	</body>
+</html>
